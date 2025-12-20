@@ -1,9 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using PurchaseService.Domain;
-using PurchaseService.Domain;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace PurchaseService.Infrastructure
 {

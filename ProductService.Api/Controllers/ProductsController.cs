@@ -1,6 +1,7 @@
 ﻿namespace ProductService.Api.Controllers
 {
     using global::ProductService.Api.Models;
+    using global::ProductService.Api.TestFolder;
     using global::ProductService.Application.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     //using PurchaseService.Api.Models;
@@ -24,6 +25,16 @@
             {
                 var products = await _service.GetAllAsync();
                 var result = products.Select(p => new ProductDto(p.Id, p.Name, p.Price, p.StockQuantity));
+                return Ok(result);
+            }
+
+            [HttpGet("test")]
+            //[FakeNotFoundResourceFilter]
+            [SimpleResourceFilter]
+            public async Task<IActionResult> TestApi()
+            {
+                var result = await _service.TestApiAsync();
+
                 return Ok(result);
             }
 

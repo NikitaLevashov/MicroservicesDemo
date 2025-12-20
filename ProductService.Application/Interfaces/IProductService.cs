@@ -1,4 +1,6 @@
-﻿namespace ProductService.Application.Interfaces
+﻿using ProductService.Infrastructure.Persistence;
+
+namespace ProductService.Application.Interfaces
 {
     public interface IProductService
     {
@@ -7,5 +9,8 @@
         Task<Product> CreateAsync(Product product);
         Task UpdateAsync(Product product);
         Task DeleteAsync(int id);
+
+        //Test
+        Task<List<User>> TestApiAsync();
     }
 }
