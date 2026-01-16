@@ -77,19 +77,49 @@
 
 
 
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProductService.Application.Interfaces;
 using ProductService.Application.Services;
 using ProductService.Infrastructure.Persistence;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddMassTransit(x =>
+{
+    // Consumers здесь не нужны — мы только публикуем события
+    x.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host("localhost", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        // Простые ретраи на случай кратких сбоев
+        cfg.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(2)));
+
+        // Красивые имена (префикс по сервису)
+        cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("product-service", false));
+    });
+});
+
+//builder.Services.AddMassTransitHostedService(true);
+
 
 // ==============================
 // 1) СЕРВИСЫ (Dependency Injection)
@@ -101,7 +131,8 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 
 // Бизнес-логика
 builder.Services.AddTransient<IProductService, ProductServiceApp>();
-
+builder.Services.AddSingleton<ClaimsPrincipal>();
+builder.Services.AddMemoryCache();
 // Контроллеры + JSON-форматирование для MVC (Controllers)
 builder.Services
     .AddControllers()
@@ -118,6 +149,26 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     options.SerializerOptions.WriteIndented = true;
 });
+
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "dev-super-secret-key-change-me";
+
+builder.Services
+    .AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
+
+
+builder.Services.AddAuthorization();
+
 
 // Swagger (OpenAPI)
 builder.Services.AddEndpointsApiExplorer();
@@ -176,278 +227,116 @@ else
 app.UseHttpsRedirection();
 
 // Если планируешь авторизацию/аутентификацию:
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//string date = "";
-//app.MapGet("/", () => Results.Text("text test Mikita", "text/plain"));
-//app.Use(async (context, next) =>
-//{
-//    date = DateTime.Now.ToShortDateString();
-//    await next.Invoke();                 // вызываем middleware из app.Run
-//    context.Response.WriteAsync($"  Test after Terminated Date: {date}");  // Current date: 08.12.2021
-//});
-
-////app.MapGet("/", () => Results.Text("text test Mikita", "text/plain"));
-
-//app.Run(async (context) => await context.Response.WriteAsync($"Date: {date}"));
-
-//app.Run();
-
-// ==============================
-// 3) ЭНДПОИНТЫ
-// ==============================
-
-// Корневой минимальный эндпоинт — не блокирует конвейер (вместо терминального app.Run(context => ...))
-//app.MapGet("/", () => Results.Text("text test Mikita", "text/plain"));
-
-
-//app.MapGet("/test", async (HttpContext context) =>
-//{
-//    var response = context.Response;
-
-//    var dictionary = context.Request.Query;
-
-
-//    response.ContentType = "text/plain; charset=utf-8";
-//    response.Headers.Append("Content-Language", "ru-RU");
-//    response.Headers.Append("secret-id", "256"); // кастомный заголовок
-
-//    await response.WriteAsync("Привет METANIT.COM");
-//});
-
-//app.MapGet("redirect", (context) =>
-//{
-//    if (context.Request.Path == "/redirect")
-//    {
-//       context.Response.Redirect("https://www.google.com/search?q=metanit.com");
-
-//        return Task.CompletedTask;
-
-//    }
-
-//    return Task.CompletedTask;
-//});
-
-
-//app.MapGet("/redirect", () =>
-//{
-//    Results.Redirect("https://www.google.com/search?q=metanit.com");
-//});
-
-//app.MapGet("/redirect", async (HttpContext context) =>
-//{
-//    if (context.Request.Path == "/redirect")
-//    {
-//        return Results.Redirect("https://www.google.com/search?q=metanit.com");
-//    }
-
-//    return Results.NotFound();
-//});
-
-
-//app.MapGet("/redirect", async (HttpContext context) =>
-//{
-//    if (context.Request.Path == "/redirect")
-//    {
-//        context.Response.Redirect("https://www.google.com/search?q=metanit.com");
-//    }
-
-//    // так как RequestDelegate должен вернуть Task
-//    await Task.CompletedTask;
-//});
-
-
-// так как RequestDelegate должен вернуть Task
-
-
-
-
-
-
-
-
-//app.(async (context) =>
-//{
-//    var response = context.Response;
-//    response.Headers.ContentLanguage = "ru-RU";
-//    response.Headers.ContentType = "text/plain; charset=utf-8";
-//    response.Headers.Append("secret-id", "256");    // добавление кастомного заголовка
-//    await response.WriteAsync("Привет METANIT.COM");
-//});
-
-// Health check
-
-
-// Контроллеры
-//app.MapControllers();
-
-//app.MapGet("/", () => Results.Text("text test Mikita", "text/plain"));
-//app.Use(async (ctx, next) =>
-//{
-//    var endpointBefore = ctx.GetEndpoint()?.DisplayName ?? "<none>";
-//    Console.WriteLine($"[Before] {ctx.Request.Method} {ctx.Request.Path} endpoint={endpointBefore}");
-//    await next();
-//    var endpointAfter = ctx.GetEndpoint()?.DisplayName ?? "<none>";
-//    Console.WriteLine($"[After ] {ctx.Request.Method} {ctx.Request.Path} endpoint={endpointAfter}");
-//});
-
-
-//app.Use(async (context, next) =>
-//{
-//    context.Items["date"] = DateTime.Now.ToShortDateString();
-//    await next();
-//});
-
-////app.MapGet("/", () => Results.Text("text test Mikita", "text/plain"));
-
-//app.MapGet("/date", (HttpContext ctx) =>
-//{
-//    var date = (string?)ctx.Items["date"] ?? "n/a";
-//    return Results.Text($"Date: {date}", "text/plain");
-//});
-
-//// Fallback: сработает, только если ни один Map* не совпал
-//app.Run(context =>
-//{
-//    var date = (string?)context.Items["date"] ?? "n/a";
-//    return context.Response.WriteAsync($"Fallback Date: {date}");
-//});
-
-
-//// =======================app.MapHealthChecks("/health");=======
-//// 4) ЗАПУСК
-//// ==============================
-//app.Run();
-
-//app.Use(async (context, next) =>
-//{
-//    await next.Invoke();
-//    await context.Response.WriteAsync("  TestDate1  ");
-//});
-
-//app.Use(async (context, next) =>
-//{
-//    string? path = context.Request.Path.Value?.ToLower();
-//    if (path == "/date")
-//    {
-//        await context.Response.WriteAsync($"Date: {DateTime.Now.ToShortDateString()}");
-//    }
-//    else
-//    {
-//        await next.Invoke();
-//        await context.Response.WriteAsync(" After Invoke in Else ")
-//    }
-//});
-
-
-//app.Run();
-//async Task GetDate(HttpContext context, Func<Task> next)
-//{
-//    string? path = context.Request.Path.Value?.ToLower();
-//    if (path == "/date")
-//    {
-//        await context.Response.WriteAsync($"Date: {DateTime.Now.ToShortDateString()}");
-//    }
-//    else
-//    {
-//        await next.Invoke();
-//    }
-//}
-
-//app.UseWhen(
-//    context => context.Request.Path == "/time", // условие: если путь запроса "/time"
-//    appBuilder =>
-//    {
-
-//        appBuilder.Map("/time", timeApp =>
-//        {
-//            timeApp.Use(async (ctx, next) =>
-//            {
-//                Console.WriteLine($"Time: {DateTime.Now.ToShortTimeString()}");
-//                await next();
-//            });
-
-//            timeApp.Run(async ctx =>
-//            {
-//                await ctx.Response.WriteAsync($"Time: {DateTime.Now.ToShortTimeString()}");
-//            });
-//        });
-
-
-//        appBuilder.Use(async (context, next) =>
-//        {
-//            var time = DateTime.Now.ToShortTimeString();
-//            context.Response.WriteAsync(time);
-//            await next();   // вызываем следующий middleware
-//            context.Response.WriteAsync("  TestTime==  ");
-//        });
-
-//        appBuilder.Use(async (HttpContext context, Func<Task> next) =>
-//        {
-//            var time = DateTime.Now.ToShortTimeString();
-//            await next();
-//            context.Response.WriteAsync("Test 2 2 2 2 2");
-//        });
-//    });
-
-//app.Run(async context =>
-//{
-//    await context.Response.WriteAsync("  Hello METANIT.COM  ");
-//});
-
-
-app.UseRouting();
-
-//// Диагностика endpoint — только лог, НЕ пишем в тело
-//app.Use(async (ctx, next) =>
-//{
-//    var before = ctx.GetEndpoint();
-//    System.Diagnostics.Debug.WriteLine(before is null
-//        ? "[ROUTING] BEFORE: no endpoint selected"
-//        : $"[ROUTING] BEFORE: {before.DisplayName}");
-
-//    await next();
-
-//    var after = ctx.GetEndpoint();
-//    System.Diagnostics.Debug.WriteLine(after is null
-//        ? "[ROUTING] AFTER: still no endpoint (map-branch?)"
-//        : $"[ROUTING] AFTER: {after.DisplayName}");
-//});
-
-// Контроллеры по атрибутам
 app.MapControllers();
 
-//// Диагностический endpoint — список endpoints
-//app.MapGet("/routes", (IEnumerable<EndpointDataSource> sources) =>
-//{
-//    var sb = new System.Text.StringBuilder();
-//    sb.AppendLine("=== Registered endpoints ===");
-//    foreach (var ep in sources.SelectMany(s => s.Endpoints))
-//    {
-//        sb.AppendLine(ep.DisplayName);
-//        if (ep is RouteEndpoint re && re.RoutePattern is not null)
-//            sb.AppendLine("  → " + re.RoutePattern.RawText);
-//    }
-//    return sb.ToString();
-//});
-
-//// Ветка middleware (НЕ endpoints)
-//app.Map("/home", home =>
-//{
-//    home.Map("/index", app2 => app2.Run(async c => await c.Response.WriteAsync("Index Page")));
-//    home.Map("/about", app2 => app2.Run(async c => await c.Response.WriteAsync("About Page")));
-//    home.Run(async c => await c.Response.WriteAsync("Home Page"));
-//});
-
-//// Хвост — добавляем текст ПОСЛЕ исполнения обработчика (один раз)
-//app.Use(async (context, next) =>
-//{
-//    await next();
-//    await context.Response.WriteAsync("  TestDate1  ");
-//});
-
 app.Run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////
+///
+
+
+
+//using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Authentication.Cookies;
+//using System.Security.Claims;
+//using Microsoft.AspNetCore.Authentication;
+
+//var builder = WebApplication.CreateBuilder();
+
+//// условная бд с пользователями
+//var people = new List<Person>
+//{
+//    new Person("tom@gmail.com", "12345"),
+//    new Person("bob@gmail.com", "55555")
+//};
+//// аутентификация с помощью куки
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options => options.LoginPath = "/login");
+//builder.Services.AddAuthorization();
+
+//var app = builder.Build();
+
+//app.UseAuthentication();   // добавление middleware аутентификации 
+//app.UseAuthorization();   // добавление middleware авторизации 
+
+//app.MapGet("/login", async (HttpContext context) =>
+//{
+//    context.Response.ContentType = "text/html; charset=utf-8";
+//    // html-форма для ввода логина/пароля
+//    string loginForm = @"<!DOCTYPE html>
+//    <html>
+//    <head>
+//        <meta charset='utf-8' />
+//        <title>METANIT.COM</title>
+//    </head>
+//    <body>
+//        <h2>Login Form</h2>
+//        <form method='post'>
+//            <p>
+//                <label>Email</label><br />
+//                <input name='email' />
+//            </p>
+//            <p>
+//                <label>Password</label><br />
+//                <input type='password' name='password' />
+//            </p>
+//            <input type='submit' value='Login' />
+//        </form>
+//    </body>
+//    </html>";
+//    await context.Response.WriteAsync(loginForm);
+//});
+
+//app.MapPost("/login", async (string? returnUrl, HttpContext context) =>
+//{
+//    // получаем из формы email и пароль
+//    var form = context.Request.Form;
+//    // если email и/или пароль не установлены, посылаем статусный код ошибки 400
+//    if (!form.ContainsKey("email") || !form.ContainsKey("password"))
+//        return Results.BadRequest("Email и/или пароль не установлены");
+
+//    string email = form["email"];
+//    string password = form["password"];
+
+//    // находим пользователя 
+//    Person? person = people.FirstOrDefault(p => p.Email == email && p.Password == password);
+//    // если пользователь не найден, отправляем статусный код 401
+//    if (person is null) return Results.Unauthorized();
+
+//    var claims = new List<Claim> { new Claim(ClaimTypes.Name, person.Email) };
+//    // создаем объект ClaimsIdentity
+//    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+
+//    // установка аутентификационных куки
+//    await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+//    return Results.Redirect(returnUrl ?? "/");
+//});
+
+//app.MapGet("/logout", async (HttpContext context) =>
+//{
+//    await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+//    return Results.Redirect("/login");
+//});
+
+//app.Run();
+
+//record class Person(string Email, string Password);
 
 
 

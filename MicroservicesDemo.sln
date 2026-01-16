@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36429.23 d17.14
+VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Api", "TaskService.Api\TaskService.Api.csproj", "{8B2488F6-6033-4866-BC79-7FF5F2B9BC27}"
 EndProject
@@ -42,6 +42,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Domain", "NotificationService.Domain\NotificationService.Domain.csproj", "{28D93E2B-9098-4DD1-AF0A-4CC482DCA155}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{4F0356D1-B310-457D-881D-A42F0B12975E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAuth", "DevAuth\DevAuth.csproj", "{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{E2855E27-1690-409E-B496-E20C327A92BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{9A5BC7CB-8F4A-459A-9CD9-FDEED1CE72AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3B7C8F6A-DEFF-42D7-86DB-3B3A45FF35DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedMessaging", "SharedMessaging\SharedMessaging.csproj", "{54733BB9-C5AC-4002-B86F-6A40949652CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,9 +141,26 @@ Global
 		{4F0356D1-B310-457D-881D-A42F0B12975E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F0356D1-B310-457D-881D-A42F0B12975E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F0356D1-B310-457D-881D-A42F0B12975E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A5BC7CB-8F4A-459A-9CD9-FDEED1CE72AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A5BC7CB-8F4A-459A-9CD9-FDEED1CE72AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A5BC7CB-8F4A-459A-9CD9-FDEED1CE72AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A5BC7CB-8F4A-459A-9CD9-FDEED1CE72AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54733BB9-C5AC-4002-B86F-6A40949652CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54733BB9-C5AC-4002-B86F-6A40949652CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54733BB9-C5AC-4002-B86F-6A40949652CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54733BB9-C5AC-4002-B86F-6A40949652CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{9A5BC7CB-8F4A-459A-9CD9-FDEED1CE72AF} = {E2855E27-1690-409E-B496-E20C327A92BF}
+		{54733BB9-C5AC-4002-B86F-6A40949652CC} = {3B7C8F6A-DEFF-42D7-86DB-3B3A45FF35DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {058DE447-EE79-491E-B4CE-5E8A5F5A00B7}

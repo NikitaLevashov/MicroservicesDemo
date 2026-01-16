@@ -1,4 +1,4 @@
-//var builder = WebApplication.CreateBuilder(args);
+﻿//var builder = WebApplication.CreateBuilder(args);
 
 //// Add services to the container.
 
@@ -27,16 +27,39 @@
 
 
 
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using NotificationService.Infrastructure;
 using NotificationService.Application.Interfaces;
 using NotificationService.Application.Services;
+using NotificationService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// … регистрируешь DI NotificationServiceApp, DbContext и т.д.
+builder.Services.AddScoped<ProductCreatedHandler>(); // Application handler
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<ProductCreatedConsumer>();
+    x.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host("localhost", h => { h.Username("guest"); h.Password("guest"); });
+        cfg.ReceiveEndpoint("notification-product-created", e =>
+        {
+            e.ConfigureConsumer<ProductCreatedConsumer>(ctx);
+            e.PrefetchCount = 16;
+            e.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(2)));
+        });
+        cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("notification-service", false));
+    });
+});
+//builder.Services.AddMassTransitHostedService(true);
+
+
 // Add services
 builder.Services.AddDbContext<NotificationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("NotificationDb")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<INotificationService, NotificationServiceApp>();
 
