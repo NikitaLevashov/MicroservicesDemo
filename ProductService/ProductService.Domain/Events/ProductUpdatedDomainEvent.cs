@@ -1,0 +1,16 @@
+﻿using ProductService.Domain.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProductService.Domain.Events
+{
+    public record ProductUpdatedDomainEvent(
+        int ProductId,
+        string Name,
+        decimal Price,
+        int StockQuantity
+    ) : IDomainEvent;
+}

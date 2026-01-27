@@ -3,45 +3,45 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Api", "TaskService.Api\TaskService.Api.csproj", "{8B2488F6-6033-4866-BC79-7FF5F2B9BC27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Api", "TaskService\TaskService.Api\TaskService.Api.csproj", "{8B2488F6-6033-4866-BC79-7FF5F2B9BC27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Application", "TaskService.Application\TaskService.Application.csproj", "{70C3533D-9ADE-4E10-9C9F-734F76D8CBBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Application", "TaskService\TaskService.Application\TaskService.Application.csproj", "{70C3533D-9ADE-4E10-9C9F-734F76D8CBBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Domain", "TaskService.Domain\TaskService.Domain.csproj", "{6BB3E261-8BB5-43E8-AAC9-B1C36BD4C649}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Domain", "TaskService\TaskService.Domain\TaskService.Domain.csproj", "{6BB3E261-8BB5-43E8-AAC9-B1C36BD4C649}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Infrastructure", "TaskService.Infrastructure\TaskService.Infrastructure.csproj", "{30EEB98A-B689-4C33-8474-02DCD0AF728B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Infrastructure", "TaskService\TaskService.Infrastructure\TaskService.Infrastructure.csproj", "{30EEB98A-B689-4C33-8474-02DCD0AF728B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Api", "ClientService.Api\ClientService.Api.csproj", "{D5DEA758-8F73-4A43-A57C-647291ACC20F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Api", "ClientService\ClientService.Api\ClientService.Api.csproj", "{D5DEA758-8F73-4A43-A57C-647291ACC20F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Application", "ClientService.Application\ClientService.Application.csproj", "{6F8CEEF2-10D1-4DEB-BEA2-6CA0BD953BA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Application", "ClientService\ClientService.Application\ClientService.Application.csproj", "{6F8CEEF2-10D1-4DEB-BEA2-6CA0BD953BA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Domain", "ClientService.Domain\ClientService.Domain.csproj", "{C686FE72-AB98-4F95-983B-79D7EDB95013}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Domain", "ClientService\ClientService.Domain\ClientService.Domain.csproj", "{C686FE72-AB98-4F95-983B-79D7EDB95013}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Infrastructure", "ClientService.Infrastructure\ClientService.Infrastructure.csproj", "{EE8E8782-2835-4BC2-AA4E-00A3E18553DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientService.Infrastructure", "ClientService\ClientService.Infrastructure\ClientService.Infrastructure.csproj", "{EE8E8782-2835-4BC2-AA4E-00A3E18553DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Api", "PurchaseService.Api\PurchaseService.Api.csproj", "{E9B4B07D-B7BB-461F-A320-B3DAB326912B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Api", "PurchaseService\PurchaseService.Api\PurchaseService.Api.csproj", "{E9B4B07D-B7BB-461F-A320-B3DAB326912B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Application", "PurchaseService.Application\PurchaseService.Application.csproj", "{AA40E699-C731-4D1A-81CC-70EF9280EA40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Application", "PurchaseService\PurchaseService.Application\PurchaseService.Application.csproj", "{AA40E699-C731-4D1A-81CC-70EF9280EA40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Domain", "PurchaseService.Domain\PurchaseService.Domain.csproj", "{AC17EC76-DC5F-4145-BF90-2C43392477FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Domain", "PurchaseService\PurchaseService.Domain\PurchaseService.Domain.csproj", "{AC17EC76-DC5F-4145-BF90-2C43392477FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Infrastructure", "PurchaseService.Infrastructure\PurchaseService.Infrastructure.csproj", "{5122DFD8-4AFD-4F8A-BF25-48166D68957F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService.Infrastructure", "PurchaseService\PurchaseService.Infrastructure\PurchaseService.Infrastructure.csproj", "{5122DFD8-4AFD-4F8A-BF25-48166D68957F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Api", "ProductService.Api\ProductService.Api.csproj", "{8F7493F6-B604-456A-B736-5730A2EFDB03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Api", "ProductService\ProductService.Api\ProductService.Api.csproj", "{8F7493F6-B604-456A-B736-5730A2EFDB03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Application", "ProductService.Application\ProductService.Application.csproj", "{3466F054-5AE9-48F6-8BAA-B789B43F6F7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Application", "ProductService\ProductService.Application\ProductService.Application.csproj", "{3466F054-5AE9-48F6-8BAA-B789B43F6F7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Domain", "ProductService.Domain\ProductService.Domain.csproj", "{380BFCF8-E4BE-4BE6-A194-17983DDBC90B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Domain", "ProductService\ProductService.Domain\ProductService.Domain.csproj", "{380BFCF8-E4BE-4BE6-A194-17983DDBC90B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Infrastructure", "ProductService.Infrastructure\ProductService.Infrastructure.csproj", "{2F2B389F-5F61-4D9D-94E2-FA05572F7BE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Infrastructure", "ProductService\ProductService.Infrastructure\ProductService.Infrastructure.csproj", "{2F2B389F-5F61-4D9D-94E2-FA05572F7BE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Api", "NotificationService.Api\NotificationService.Api.csproj", "{3B08245D-B09F-4D0F-93FC-4A72F15A4C88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Api", "NotificationService\NotificationService.Api\NotificationService.Api.csproj", "{3B08245D-B09F-4D0F-93FC-4A72F15A4C88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application", "NotificationService.Application\NotificationService.Application.csproj", "{4784BBE0-A5FE-4F56-8001-439A1DA075DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application", "NotificationService\NotificationService.Application\NotificationService.Application.csproj", "{4784BBE0-A5FE-4F56-8001-439A1DA075DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Domain", "NotificationService.Domain\NotificationService.Domain.csproj", "{28D93E2B-9098-4DD1-AF0A-4CC482DCA155}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Domain", "NotificationService\NotificationService.Domain\NotificationService.Domain.csproj", "{28D93E2B-9098-4DD1-AF0A-4CC482DCA155}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{4F0356D1-B310-457D-881D-A42F0B12975E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{4F0356D1-B310-457D-881D-A42F0B12975E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevAuth", "DevAuth\DevAuth.csproj", "{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB}"
 EndProject
@@ -54,6 +54,21 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3B7C8F6A-DEFF-42D7-86DB-3B3A45FF35DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedMessaging", "SharedMessaging\SharedMessaging.csproj", "{54733BB9-C5AC-4002-B86F-6A40949652CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService", "WorkerService\WorkerService.csproj", "{EE5446F8-DE96-443D-8E87-B809D946A381}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductService", "ProductService", "{286ADFA2-99D4-4D13-A787-A8642054FAD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientService", "ClientService", "{964F7868-4023-452C-89DB-D13783A8102B}"
+	ProjectSection(SolutionItems) = preProject
+		XMLFile1.xml = XMLFile1.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "NotificationService", "{6BCD9C6A-E8A1-4ACA-94D8-C2F84DFCD59B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PurchaseService", "PurchaseService", "{4C736D0D-E891-4617-9080-B3F5D19A1F3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskService", "TaskService", "{2492B775-0F64-41AC-8AD5-5CDE5B4C113E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,14 +168,39 @@ Global
 		{54733BB9-C5AC-4002-B86F-6A40949652CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54733BB9-C5AC-4002-B86F-6A40949652CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54733BB9-C5AC-4002-B86F-6A40949652CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE5446F8-DE96-443D-8E87-B809D946A381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5446F8-DE96-443D-8E87-B809D946A381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5446F8-DE96-443D-8E87-B809D946A381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5446F8-DE96-443D-8E87-B809D946A381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{8B2488F6-6033-4866-BC79-7FF5F2B9BC27} = {2492B775-0F64-41AC-8AD5-5CDE5B4C113E}
+		{70C3533D-9ADE-4E10-9C9F-734F76D8CBBF} = {2492B775-0F64-41AC-8AD5-5CDE5B4C113E}
+		{6BB3E261-8BB5-43E8-AAC9-B1C36BD4C649} = {2492B775-0F64-41AC-8AD5-5CDE5B4C113E}
+		{30EEB98A-B689-4C33-8474-02DCD0AF728B} = {2492B775-0F64-41AC-8AD5-5CDE5B4C113E}
+		{D5DEA758-8F73-4A43-A57C-647291ACC20F} = {964F7868-4023-452C-89DB-D13783A8102B}
+		{6F8CEEF2-10D1-4DEB-BEA2-6CA0BD953BA6} = {964F7868-4023-452C-89DB-D13783A8102B}
+		{C686FE72-AB98-4F95-983B-79D7EDB95013} = {964F7868-4023-452C-89DB-D13783A8102B}
+		{EE8E8782-2835-4BC2-AA4E-00A3E18553DF} = {964F7868-4023-452C-89DB-D13783A8102B}
+		{E9B4B07D-B7BB-461F-A320-B3DAB326912B} = {4C736D0D-E891-4617-9080-B3F5D19A1F3D}
+		{AA40E699-C731-4D1A-81CC-70EF9280EA40} = {4C736D0D-E891-4617-9080-B3F5D19A1F3D}
+		{AC17EC76-DC5F-4145-BF90-2C43392477FB} = {4C736D0D-E891-4617-9080-B3F5D19A1F3D}
+		{5122DFD8-4AFD-4F8A-BF25-48166D68957F} = {4C736D0D-E891-4617-9080-B3F5D19A1F3D}
+		{8F7493F6-B604-456A-B736-5730A2EFDB03} = {286ADFA2-99D4-4D13-A787-A8642054FAD2}
+		{3466F054-5AE9-48F6-8BAA-B789B43F6F7B} = {286ADFA2-99D4-4D13-A787-A8642054FAD2}
+		{380BFCF8-E4BE-4BE6-A194-17983DDBC90B} = {286ADFA2-99D4-4D13-A787-A8642054FAD2}
+		{2F2B389F-5F61-4D9D-94E2-FA05572F7BE0} = {286ADFA2-99D4-4D13-A787-A8642054FAD2}
+		{3B08245D-B09F-4D0F-93FC-4A72F15A4C88} = {6BCD9C6A-E8A1-4ACA-94D8-C2F84DFCD59B}
+		{4784BBE0-A5FE-4F56-8001-439A1DA075DB} = {6BCD9C6A-E8A1-4ACA-94D8-C2F84DFCD59B}
+		{28D93E2B-9098-4DD1-AF0A-4CC482DCA155} = {6BCD9C6A-E8A1-4ACA-94D8-C2F84DFCD59B}
+		{4F0356D1-B310-457D-881D-A42F0B12975E} = {6BCD9C6A-E8A1-4ACA-94D8-C2F84DFCD59B}
 		{F76AC0A6-D90B-44BD-BE28-CF04D108E3EB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{9A5BC7CB-8F4A-459A-9CD9-FDEED1CE72AF} = {E2855E27-1690-409E-B496-E20C327A92BF}
 		{54733BB9-C5AC-4002-B86F-6A40949652CC} = {3B7C8F6A-DEFF-42D7-86DB-3B3A45FF35DD}
+		{EE5446F8-DE96-443D-8E87-B809D946A381} = {3B7C8F6A-DEFF-42D7-86DB-3B3A45FF35DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {058DE447-EE79-491E-B4CE-5E8A5F5A00B7}
