@@ -23,6 +23,7 @@ namespace ProductService.Infrastructure.Persistence
         {
             var result = _context.Users.AsNoTracking<User>().
                 Include(c => c.Company).
+                Include(c => c.Company).
                 ThenInclude(c => c!.Country).
                 ToList();
 
@@ -64,7 +65,7 @@ namespace ProductService.Infrastructure.Persistence
                 Direction = System.Data.ParameterDirection.Output,
                 Size = 50
             };
-            _context.Database.ExecuteSqlRaw("GetUserWithMaxAge @userName OUT", param);
+            _context.Users.FromSqlRaw("GetUserWithMaxAge @userName OUT", param);
 
             return usersSP;
         }

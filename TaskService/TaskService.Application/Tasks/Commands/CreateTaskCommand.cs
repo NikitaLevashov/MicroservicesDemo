@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskService.Domain;
 
 namespace TaskService.Application.Tasks.Commands
 {
@@ -11,6 +12,6 @@ namespace TaskService.Application.Tasks.Commands
         string Title,
         string Description,
         string Status,
-        int ClientId): IRequest<int>
+        int ClientId): IRequest<TaskEntity>
     ;
 }

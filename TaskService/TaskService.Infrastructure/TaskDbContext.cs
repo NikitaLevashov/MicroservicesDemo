@@ -24,6 +24,7 @@ namespace TaskService.Infrastructure
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Title).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Status).IsRequired().HasMaxLength(50);
+                entity.HasIndex(e => e.Title).IsUnique();
             });
         }
     }

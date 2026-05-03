@@ -21,9 +21,9 @@ namespace TaskService.Api.Controllers
         /// Создать новую задачу
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> CreateTask([FromBody] CreateTaskCommand command)
+        public async Task<IActionResult> CreateTask([FromBody] CreateTaskCommand command, CancellationToken ctx)
         {
-            var id = await _mediator.Send(command);
+            var id = await _mediator.Send(command, ctx);
             return Ok(new { TaskId = id });
         }
 

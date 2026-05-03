@@ -138,6 +138,12 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//builder.Services.AddDbContext<ProductDbContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection1")));
+
+//builder.Services.AddDbContext<ProductDbContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection1")));
+
 // Бизнес-логика
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<ClaimsPrincipal>();

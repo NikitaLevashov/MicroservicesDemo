@@ -12,7 +12,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaskService.Domain\TaskService.Domain.csproj" />
-    <ProjectReference Include="..\TaskService.Infrastructure\TaskService.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

@@ -3,13 +3,13 @@ using TaskService.Application.Interfaces;
 using TaskService.Domain;
 using TaskService.Infrastructure;
 
-namespace TaskService.Application.Services
+namespace TaskService.Infrastructure
 {
-    public class TaskServiceApp : ITaskService
+    public class TaskRepository : ITaskRepository
     {
         private readonly TaskDbContext _context;
 
-        public TaskServiceApp(TaskDbContext context)
+        public TaskRepository(TaskDbContext context)
         {
             _context = context;
         }
@@ -18,11 +18,11 @@ namespace TaskService.Application.Services
 
         public async Task<TaskEntity?> GetByIdAsync(int id) => await _context.Tasks.FindAsync(id);
 
-        public async Task<TaskEntity> CreateAsync(TaskEntity task)
+        public async Task<TaskEntity> CreateAsync(TaskEntity task, CancellationToken ctx)
         {
             task.CreatedAt = DateTime.UtcNow;
-            _context.Tasks.Add(task);
-            await _context.SaveChangesAsync();
+            await _context.Tasks.AddAsync(task, ctx);
+            await _context.SaveChangesAsync(ctx);
             return task;
         }
 

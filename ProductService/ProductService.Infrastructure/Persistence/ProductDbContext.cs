@@ -53,6 +53,10 @@ namespace ProductService.Infrastructure.Persistence
                 cfg.ToTable("Products");
                 cfg.HasKey(p => p.Id);
 
+                cfg.Property(p => p.Id)
+                   .HasColumnName("Id");
+
+
                 cfg.Property(p => p.Name)
                    .HasMaxLength(200)
                    .IsRequired();

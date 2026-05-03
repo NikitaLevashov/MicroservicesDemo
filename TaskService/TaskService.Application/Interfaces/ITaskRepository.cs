@@ -7,11 +7,11 @@ using TaskService.Domain;
 
 namespace TaskService.Application.Interfaces
 {
-    interface ITaskService
+    public interface ITaskRepository
     {
         Task<List<TaskEntity>> GetAllAsync();
         Task<TaskEntity?> GetByIdAsync(int id);
-        Task<TaskEntity> CreateAsync(TaskEntity task);
+        Task<TaskEntity> CreateAsync(TaskEntity task, CancellationToken ctx);
         Task UpdateAsync(TaskEntity task);
         Task DeleteAsync(int id);
     }

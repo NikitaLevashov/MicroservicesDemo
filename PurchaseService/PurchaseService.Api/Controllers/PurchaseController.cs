@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PurchaseService.Api.Models;
 using PurchaseService.Application.Interfaces;
 using PurchaseService.Domain;
+using PurchaseService.Infrastructure.Queues;
 
 namespace PurchaseService.Api.Controllers
 {
@@ -12,9 +13,12 @@ namespace PurchaseService.Api.Controllers
     {
         private readonly IPurchaseService _service;
 
-        public PurchasesController(IPurchaseService service)
+        private readonly QueuePublisher _queuePublisher;
+
+        public PurchasesController(IPurchaseService service, QueuePublisher queuePublisher)
         {
             _service = service;
+            _queuePublisher = queuePublisher;
         }
 
         [HttpGet]
@@ -61,6 +65,17 @@ namespace PurchaseService.Api.Controllers
             };
 
             var created = await _service.CreateAsync(purchase);
+
+
+            await _queuePublisher.PublishAsync(new
+            {
+                PurchaseId = created.Id,
+                ClientId = created.ClientId,
+                Total = created.TotalAmount
+            }, HttpContext.RequestAborted);
+
+
+
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, new PurchaseDto(
                 created.Id,
                 created.ClientId,

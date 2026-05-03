@@ -29,17 +29,23 @@
 
 
 using Microsoft.EntityFrameworkCore;
-using PurchaseService.Infrastructure;
 using PurchaseService.Application.Interfaces;
 using PurchaseService.Application.Services;
+using PurchaseService.Infrastructure;
+using PurchaseService.Infrastructure.Queues;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
 builder.Services.AddDbContext<PurchaseDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PurchaseDb")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IPurchaseService, PurchaseServiceApp>();
+builder.Services.AddScoped<QueuePublisher>();
+
+// Bind AzureStorage -> QueueOptions (type-safe)
+builder.Services.Configure<QueueOptions>(builder.Configuration.GetSection("AzureStorage"));
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
