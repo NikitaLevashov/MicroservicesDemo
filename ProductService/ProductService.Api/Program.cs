@@ -86,33 +86,51 @@ using ProductService.Application.Commands;
 using ProductService.Application.Interfaces;
 using ProductService.Infrastructure.Messaging;
 using ProductService.Infrastructure.Persistence;
+using Serilog;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
+using ProductService.Domain.Abstractions;
+
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+    {
+        AutoRegisterTemplate = true,
+        IndexFormat = "product-service-logs-{0:yyyy.MM.dd}"
+    })
+    .CreateLogger();
+
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseSerilog();
 
-builder.Services.AddMassTransit(x =>
-{
-    // Consumers здесь не нужны — мы только публикуем события
-    x.UsingRabbitMq((ctx, cfg) =>
-    {
-        cfg.Host("localhost", h =>
-        {
-            h.Username("guest");
-            h.Password("guest");
-        });
 
-        // Простые ретраи на случай кратких сбоев
-        cfg.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(2)));
+//builder.Services.AddMassTransit(x =>
+//{
+//    // Consumers здесь не нужны — мы только публикуем события
+//    x.UsingRabbitMq((ctx, cfg) =>
+//    {
+//        cfg.Host("localhost", h =>
+//        {
+//            h.Username("guest");
+//            h.Password("guest");
+//        });
 
-        // Красивые имена (префикс по сервису)
-        cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("product-service", false));
-    });
-});
+//        // Простые ретраи на случай кратких сбоев
+//        cfg.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(2)));
 
-builder.Services.AddScoped<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
+//        // Красивые имена (префикс по сервису)
+//        cfg.ConfigureEndpoints(ctx, new KebabCaseEndpointNameFormatter("product-service", false));
+//    });
+//});
+
+//builder.Services.AddScoped<IDomainEventDispatcher, MassTransitDomainEventDispatcher>();
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -128,7 +146,7 @@ builder.Services.AddMediatR(cfg =>
 
 
 //builder.Services.AddMassTransitHostedService(true);
-
+builder.Services.AddScoped<IDomainEventDispatcher, NoOpDomainEventDispatcher>();
 
 // ==============================
 // 1) СЕРВИСЫ (Dependency Injection)
@@ -216,8 +234,10 @@ builder.Services.AddHealthChecks();
 // 2) ПРИЛОЖЕНИЕ И MIDDLEWARE
 // ==============================
 
-var app = builder.Build();
 
+
+var app = builder.Build();
+app.UseSerilogRequestLogging();
 // Dev-инструменты
 if (app.Environment.IsDevelopment())
 {
@@ -237,6 +257,14 @@ else
     // app.UseSwagger();
     // app.UseSwaggerUI(); // обычно выключают в проде
 }
+
+
+app.MapGet("/test-log", () =>
+{
+    Log.Information("Test log from ProductService");
+    return "ok";
+});
+
 
 // Безопасность/инфраструктура
 app.UseHttpsRedirection();
@@ -356,5 +384,18 @@ app.Run();
 
 
 
+
+public class NoOpDomainEventDispatcher : IDomainEventDispatcher
+{
+    public Task DispatchAsync(IDomainEvent domainEvent)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task DispatchAsync(IEnumerable<IDomainEvent> events, CancellationToken ct)
+    {
+        return Task.CompletedTask;
+    }
+}
 
 

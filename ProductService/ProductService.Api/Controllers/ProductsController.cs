@@ -11,6 +11,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
+    using Serilog;
     using SharedMessaging.Contracts;
     using System.Security.Claims;
 
@@ -30,16 +31,16 @@
             //private readonly ClaimsPrincipal _claimsPrincipal;
             private readonly IMemoryCache _memoryCache;
 
-            private readonly IPublishEndpoint _publish;
+            //private readonly IPublishEndpoint _publish;
 
             public ProductsController(
                 IMediator mediator,
                 IProductRepository service,
                 ClaimsPrincipal claimsPrincipal,
-                IMemoryCache memoryCache,
-                IPublishEndpoint publish)
+                IMemoryCache memoryCache
+                /*IPublishEndpoint publish*/)
             {
-                _publish = publish;
+                //_publish = publish;
                 _service = service;
                 //_claimsPrincipal = claimsPrincipal;
                 _memoryCache = memoryCache;
@@ -49,6 +50,8 @@
             [HttpGet]
             public async Task<IActionResult> GetAll()
             {
+                Log.Information("GetAll products called");
+
                 var isProductsCached = _memoryCache.TryGetValue("allProducts", out IEnumerable<Product>? cacheProducts);
 
                 if(isProductsCached)
@@ -85,6 +88,8 @@
             public async Task<IActionResult> GetById(int id)
             {
                 var product = await _service.GetByIdAsync(id);
+
+                throw new FileNotFoundException();
                 if (product == null) return NotFound();
                 return Ok(new ProductDto(product.Id, product.Name, product.Price.Value, product.StockQuantity));
             }

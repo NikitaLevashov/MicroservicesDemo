@@ -7,7 +7,9 @@ using NotificationService.Application.Notifications.Queries;
 using NotificationService.Applications.Abstractions;
 using NotificationService.Infrastructure.DomainEvents;
 using NotificationService.Infrastructure.Persistence;
+using NotificationService.Infrastructure.Persistence.MongoDB;
 using NotificationService.Infrastructure.Persistence.Read;
+using NotificationService.Infrastructure.Persistence.Repositories;
 using NotificationService.Infrastructure.Persistence.Write;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,10 @@ builder.Services.AddMediatR(c =>
 // EF Core
 builder.Services.AddDbContext<NotificationDbContext>(options =>
     options.UseSqlServer(cfg.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddSingleton<MongoContext>();
+builder.Services.AddScoped<NotificationMongoRepository>();
+
 
 // Repositories + UoW + DomainEventsDispatcher
 builder.Services.AddScoped<INotificationReadRepository, EfNotificationReadRepository>();

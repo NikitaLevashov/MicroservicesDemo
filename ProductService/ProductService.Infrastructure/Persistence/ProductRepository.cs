@@ -8,7 +8,7 @@ using static ProductService.Domain.Entities.UserTest;
 namespace ProductService.Infrastructure.Persistence
 {   
 
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : IProductRepository, IDisposable
     {
         private readonly ProductDbContext _context;
 
@@ -93,6 +93,11 @@ namespace ProductService.Infrastructure.Persistence
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

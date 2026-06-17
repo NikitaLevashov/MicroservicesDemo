@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Threading.Tasks;
 using static ProductService.Domain.Entities.UserTest;
+using Serilog;
 
 namespace ProductService.Infrastructure.Persistence
 {
@@ -93,12 +94,22 @@ namespace ProductService.Infrastructure.Persistence
             Console.WriteLine("Model configuration completed.");
         }
 
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder
+        //        .LogTo(_logStream.WriteLine, new[] { RelationalEventId.CommandExecuted })
+        //        .EnableSensitiveDataLogging();
+        //}
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .LogTo(_logStream.WriteLine, new[] { RelationalEventId.CommandExecuted })
+                .LogTo(message => Log.Information(message),
+                       new[] { RelationalEventId.CommandExecuted })
                 .EnableSensitiveDataLogging();
         }
+
 
         public override void Dispose()
         {
